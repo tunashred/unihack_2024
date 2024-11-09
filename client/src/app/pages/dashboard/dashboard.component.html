@@ -1,1 +1,9 @@
-<p>dashboard works!</p>
+<div class="py-12 px-24 gap-8 flex flex-wrap flex-row">
+    @for (page of modelPages; track $index) {
+    <a [routerLink]="'model-' + page.path" class="block w-64 p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{page.name}}</h5>
+        <p class="font-normal text-gray-700 dark:text-gray-400">{{page.description}}</p>
+    </a>
+    }
+</div>
+    
