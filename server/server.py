@@ -11,13 +11,11 @@ app = Flask(__name__)
 
 # Dictionary to map model names to file paths
 model_paths = {
-    "AlzheimerResNet152": "/path/to/alzheimer_resnet152_model.keras",
-    ""
-    "LungModel": "/path/to/lung_model.keras",
-    "Covid": "/path/to/covid_model.keras",
-    "RetinalImagingResnet50": "/home/alex/Downloads/retinal_imaging_resnet50.keras",
-    "RetinalImagingResnet152": "/home/alex/Downloads/retinal_imaging_resnet152.keras",
-    "KidneyCancer": "/home/alex/Downloads/kidnet_cancer.keras"  # Default model
+    "AlzheimerResNet152": "../models/AlzheimerResNet152.keras",
+    "Malaria": "../models/MalariaResnet50.keras",
+    "Covid": "../models/CovidResNet152.keras",
+    "RetinalImagingResnet152": "../models/retinal_imaging_resnet152.keras",
+    "KidneyCancer": "../models/KidneyCancerResnet50.keras"
 }
 
 # Function to load the selected model
