@@ -9,13 +9,16 @@ import os
 # Initialize Flask app
 app = Flask(__name__)
 
+# Define the base directory for models
+BASE_MODEL_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'models'))
+
 # Dictionary to map model names to file paths
 model_paths = {
-    "AlzheimerResNet152": "../models/AlzheimerResNet152.keras",
-    "Malaria": "../models/MalariaResnet50.keras",
-    "Covid": "../models/CovidResNet152.keras",
-    "RetinalImagingResnet152": "../models/retinal_imaging_resnet152.keras",
-    "KidneyCancer": "../models/KidneyCancerResnet50.keras"
+    "AlzheimerResNet152": os.path.join(BASE_MODEL_DIR, "AlzheimerResNet152.keras"),
+    "Malaria": os.path.join(BASE_MODEL_DIR, "MalariaResnet50.keras"),
+    "Covid": os.path.join(BASE_MODEL_DIR, "CovidResNet152.keras"),
+    "RetinalImagingResnet152": os.path.join(BASE_MODEL_DIR, "retinal_imaging_resnet152.keras"),
+    "KidneyCancer": os.path.join(BASE_MODEL_DIR, "KidneyCancerResnet50.keras")
 }
 
 # Function to load the selected model
