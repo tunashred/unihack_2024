@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS  # Import CORS
 import tensorflow as tf
 import numpy as np
 import cv2
@@ -8,6 +9,9 @@ import os
 
 # Initialize Flask app
 app = Flask(__name__)
+
+# Enable CORS for all routes and origins
+CORS(app)
 
 # Define the base directory for models
 BASE_MODEL_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'models'))
