@@ -10,7 +10,8 @@ import { RouterLink, RouterModule, RouterOutlet } from '@angular/router';
 })
 export class HeaderComponent {
   public scanConfig: { url: string, title: string} [] = [
+    {url: 'home', title: 'Home page'},
     {url: 'dashboard', title: 'Dashboard'}, 
-    {url: 'about-us', title: 'About us'}, 
-    {url: 'home', title: 'Contact'} ];
+    {url: 'about-us', title: 'About us'}
+   ];
 }

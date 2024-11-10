@@ -12,8 +12,8 @@ import { ScanTemplateService } from '../../pages/scan-template/scan-template.ser
 export class FileUploaderComponent {
   constructor(private route: ActivatedRoute, private scanTemplateService: ScanTemplateService) {}
   public pageId: string | null = '';
-  public images: any[] = [];
-  public imageUrl: string | ArrayBuffer | null = null;  // Store the image URL
+  public imageUrls: (string | ArrayBuffer)[] = [];
+  public loading: boolean = false;
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -23,14 +23,17 @@ export class FileUploaderComponent {
 
   public saveFile(event: any) {
     const file = event.target.files[0];
-    if (file) {
-      this.scanTemplateService.processImage(file, 'kidney-cancer').subscribe(
+    if (file && this.pageId) {
+      this.loading = true; 
+      this.scanTemplateService.processImage(file, this.pageId).subscribe(
         (res: Blob) => {
-          // Create an Object URL for the image
-          this.imageUrl = URL.createObjectURL(res);
+          const image = URL.createObjectURL(res);
+          this.imageUrls.push(image);
+          this.loading = false;
         },
         (error) => {
           console.error('Error processing image:', error);
+          this.loading = false;
         }
       );
     }

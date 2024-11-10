@@ -15,7 +15,7 @@ export class AboutUsPageComponent {
       image: 'https://avatars.githubusercontent.com/u/32220246?v=4',
       pronouns: 'drop/table',
       role: 'Web developer',
-      motto: 'Can center a div, did all of this.'
+      motto: 'Can center a div, did the frontend and some of the backend.'
     },
     {
       name: 'Adrian Badea', github: '', 
