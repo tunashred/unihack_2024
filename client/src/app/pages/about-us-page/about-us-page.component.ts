@@ -14,7 +14,7 @@ export class AboutUsPageComponent {
       link: 'https://1viorel.tech',
       image: 'https://avatars.githubusercontent.com/u/32220246?v=4',
       pronouns: 'drop/table',
-      role: 'Web developer',
+      role: 'Full Stack Engineer',
       motto: 'Can center a div, did the frontend and some of the backend.'
     },
     {
@@ -30,7 +30,7 @@ export class AboutUsPageComponent {
       link: 'https://github.com/tunashred',
       image: 'https://i.imgur.com/EBJVy1e.png',
       pronouns: 'cr/ab',
-      role: 'AI engineer',
+      role: 'AI Engineer',
       motto: 'Regula 1: Orice om poate lucra ca muncitor necalificat in constructii, urmata de Regula 14'
     },
     {
