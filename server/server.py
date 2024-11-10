@@ -1,7 +1,5 @@
 from flask_cors import CORS  # Import CORS
 from flask import Flask, request, jsonify, send_file
-import torch
-from transformers import pipeline
 import os
 import logging
 import tensorflow as tf
@@ -9,10 +7,7 @@ from tensorflow.keras.preprocessing import image
 from tensorflow.keras.models import load_model
 import numpy as np
 import cv2
-from accelerate import Accelerator
 import tempfile
-
-torch.cuda.empty_cache()
 
 # Set up logging for better error tracking
 logging.basicConfig(level=logging.INFO)
@@ -32,8 +27,7 @@ model_paths = {
     "Malaria": os.path.join(BASE_MODEL_DIR, "MalariaResnet50.keras"),
     "Covid": os.path.join(BASE_MODEL_DIR, "CovidResNet152.keras"),
     "RetinalImagingResnet152": os.path.join(BASE_MODEL_DIR, "retinal_imaging_resnet152.keras"),
-    "KidneyCancer": os.path.join(BASE_MODEL_DIR, "KidneyCancerResnet50.keras"),
-    "Llama-3.2-1B": os.path.join(BASE_MODEL_DIR, "Llama-3.2-1B")  # Path to Llama model directory
+    "kidney-cancer": os.path.join(BASE_MODEL_DIR, "KidneyCancerResnet50.keras"),
 }
 
 # Function to load the selected model
@@ -92,61 +86,37 @@ def overlay_heatmap(heatmap, img_path, alpha=0.4):
     superimposed_img = cv2.addWeighted(img, 1 - alpha, heatmap, alpha, 0)
     return cv2.cvtColor(superimposed_img, cv2.COLOR_RGB2BGR)
 
-# Load the text generation model using Hugging Face pipeline
-def load_text_generation_model():
-    try:
-        logging.info("Loading text generation model and tokenizer from Hugging Face.")
-        model_id = "meta-llama/Llama-3.2-1B"
-
-        # Set device to -1 for CPU
-        device = -1  # Use CPU
-
-        accelerator = Accelerator()
-
-        # Initialize the pipeline for text generation
-        pipe = pipeline(
-            "text-generation",
-            model=model_id,
-            torch_dtype=torch.bfloat16,
-            repetition_penalty=2.0,
-            num_return_sequences=1,
-            accelerator=accelerator,
-            max_length=100,  # Try reducing the max length of the text generated
-            device=device  # Set to -1 to force using the CPU
-        )
-        return pipe
-    except Exception as e:
-        logging.error(f"Error loading the text generation model: {str(e)}")
-        raise RuntimeError(f"Error loading the text generation model: {str(e)}")
-
-
-
 # Route for handling POST requests
 @app.route('/process_image', methods=['POST'])
 def process_image():
-    data = request.get_json()
-    model_name = data.get('model_name', "KidneyCancer")  # Default to "KidneyCancer" if not provided
-    img_path = data.get('image_path')
-
-    if not img_path or not os.path.exists(img_path):
-        return jsonify({"error": "Invalid or missing image path"}), 400
-
+    # Retrieve model name from form data
+    model_name = request.form.get('model_name', "kidney-cancer")
     if model_name not in model_paths:
         return jsonify({"error": "Invalid model name"}), 400
 
+    # Retrieve the image file from request files
+    if 'image_file' not in request.files:
+        return jsonify({"error": "Image file is missing"}), 400
+    
+    image_file = request.files['image_file']
+    if image_file.filename == '':
+        return jsonify({"error": "No selected file"}), 400
+
+    # Save the uploaded image temporarily
+    temp_file = tempfile.NamedTemporaryFile(delete=False)
+    image_file.save(temp_file.name)
+    img_path = temp_file.name
+
+    # Load the selected model
     try:
         model = load_selected_model(model_name)
     except RuntimeError as e:
         return jsonify({"error": str(e)}), 500
 
-    # Load the text generation pipeline (Llama)
-    pipe = load_text_generation_model()
-
     # Preprocess the image
     img = image.load_img(img_path, target_size=(224, 224))
     img_array = image.img_to_array(img)
-    img_array = np.expand_dims(img_array, axis=0)
-    img_array = img_array / 255.0
+    img_array = np.expand_dims(img_array, axis=0) / 255.0
 
     # Get the top prediction
     predictions = model.predict(img_array)
@@ -155,28 +125,14 @@ def process_image():
 
     # Generate Grad-CAM heatmap
     heatmap = generate_grad_cam(model, img_array)
-
-    # Overlay the heatmap on the image
     processed_img = overlay_heatmap(heatmap, img_path)
 
     # Save the processed image temporarily
-    temp_file = tempfile.NamedTemporaryFile(suffix=".jpeg", delete=False)
-    output_path = temp_file.name
+    output_file = tempfile.NamedTemporaryFile(suffix=".jpeg", delete=False)
+    output_path = output_file.name
     cv2.imwrite(output_path, processed_img)
 
-    # Generate explanation using Llama model
-    explanation = ""
-    try:
-        explanation_prompt = f"The image belongs to the class '{model_name}', and the prediction confidence is {prediction_confidence:.2f}. Can you explain which areas of the image contributed most to this decision based on the Grad-CAM heatmap?"
-        if explanation_prompt.strip():
-            outputs = pipe(explanation_prompt, max_length=200, num_return_sequences=1)
-            explanation = outputs[0]['generated_text']
-        else:
-            explanation = "Error: Explanation prompt is empty."
-    except Exception as e:
-        explanation = f"Error generating explanation: {str(e)}"
-
-    # Return the image with the heatmap as a response
+    # Send processed image as response
     return send_file(output_path, mimetype='image/jpeg', as_attachment=True, download_name='processed_image.jpeg')
 
 # Run the Flask app
