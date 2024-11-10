@@ -37,7 +37,7 @@ export class DashboardComponent {
       },
       {
         name: 'Malaria',
-        description: '',
+        description: 'Malaria is a serious infectious disease caused by parasites transmitted to humans through the bites of infected Anopheles mosquitoes. ',
         path: 'malaria'
       }
     ]    
