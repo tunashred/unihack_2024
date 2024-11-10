@@ -23,10 +23,10 @@ BASE_MODEL_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '
 
 # Dictionary to map model names to file paths
 model_paths = {
-    "AlzheimerResNet152": os.path.join(BASE_MODEL_DIR, "AlzheimerResNet152.keras"),
-    "Malaria": os.path.join(BASE_MODEL_DIR, "MalariaResnet50.keras"),
-    "Covid": os.path.join(BASE_MODEL_DIR, "CovidResNet152.keras"),
-    "RetinalImagingResnet152": os.path.join(BASE_MODEL_DIR, "retinal_imaging_resnet152.keras"),
+    "alzheimer": os.path.join(BASE_MODEL_DIR, "AlzheimerResNet152.keras"),
+    "malaria": os.path.join(BASE_MODEL_DIR, "MalariaResnet50.keras"),
+    "covid": os.path.join(BASE_MODEL_DIR, "CovidResNet152.keras"),
+    "retinal-imaging": os.path.join(BASE_MODEL_DIR, "retinal_imaging_resnet152.keras"),
     "kidney-cancer": os.path.join(BASE_MODEL_DIR, "KidneyCancerResnet50.keras"),
 }
 
