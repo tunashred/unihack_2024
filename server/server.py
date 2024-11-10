@@ -110,13 +110,13 @@ def overlay_heatmap(heatmap, img_path, alpha=0.4):
 # Function to handle segmentation
 def process_segmentation():
     # Load the Segmentation model
-    model = load_model("../models/Segmentation.keras")
+    model = load_model(r"C:\Users\Viorel\Desktop\web\unihack_2024\models\Segmentation.keras")
 
     # Load data function
     def load_data():
         # Load the TIFF images
-        custom_img = tifffile.imread('../models/testing.tif')
-        custom_labels = tifffile.imread('../models/testing_groundtruth.tif')
+        custom_img = tifffile.imread(r"C:\Users\Viorel\Desktop\web\unihack_2024\models\testing.tif")
+        custom_labels = tifffile.imread(r"C:\Users\Viorel\Desktop\web\unihack_2024\models\testing_groundtruth.tif")
 
         # Normalize the images to [0, 1]
         custom_img = custom_img.astype(np.float32) / np.max(custom_img)

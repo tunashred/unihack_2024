@@ -39,6 +39,11 @@ export class DashboardComponent {
         name: 'Malaria',
         description: 'Malaria is a serious infectious disease caused by parasites transmitted to humans through the bites of infected Anopheles mosquitoes. ',
         path: 'malaria'
+      },
+      {
+        name: 'Segmentation',
+        description: 'Segmentation is the process of partitioning a digital image into multiple segments to simplify the representation of an image.',
+        path: 'segmentation'
       }
     ]    
 }

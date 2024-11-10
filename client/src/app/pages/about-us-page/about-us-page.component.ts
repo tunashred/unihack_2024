@@ -18,28 +18,28 @@ export class AboutUsPageComponent {
       motto: 'Can center a div, did the frontend and some of the backend.'
     },
     {
-      name: 'Adrian Badea', github: '', 
-      link: 'https://cdn.discordapp.com/attachments/1304489004636573700/1304748692946817095/terrorist-face-but-made-in-source-2-v0-cuvb9467grrb1.png?ex=67308569&is=672f33e9&hm=959f6a084ba60d08d9e8c13ec783f37a0d8ec826e2f3c6215f8f1b022c5fb9a8&',
-      image: '',
+      name: 'Adrian Badea', github: 'https://github.com/AdrianBadea23', 
+      link: '',
+      image: 'https://i.imgur.com/AekYYua.png',
       pronouns: 'BET/MAN',
-      role: '',
-      motto: ''
+      role: 'AI Engineer',
+      motto: "I'm ENGI-nearing my fucking limit"
     },
     {
       name: 'Alex Enache', github: '', 
-      link: '',
-      image: '',
-      pronouns: '',
-      role: '',
-      motto: ''
+      link: 'https://github.com/tunashred',
+      image: 'https://i.imgur.com/EBJVy1e.png',
+      pronouns: 'cr/ab',
+      role: 'AI engineer',
+      motto: 'Regula 1: Orice om poate lucra ca muncitor necalificat in constructii, urmata de Regula 14'
     },
     {
-      name: 'Enache', github: '', 
+      name: 'Mihai Enache', github: 'https://github.com/tyr4/', 
       link: '',
-      image: '',
-      pronouns: '',
-      role: '',
-      motto: ''
-    },
+      image: 'https://i.imgur.com/LKuA38T.jpeg',
+      pronouns: 'le/mon',
+      role: "Santa's helper",
+      motto: 'bUt iT WoRkS oN mY mAcHiNe'
+    }
     ]
 }
