@@ -12,17 +12,18 @@ import { ScanTemplateService } from './scan-template.service';
 export class ScanTemplateComponent {
   constructor(private route: ActivatedRoute, private scanTemplateService: ScanTemplateService) {}
   public pageId: string | null = '';
+  public images: any[] = [];
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.pageId = params.get('id');
-      console.warn(this.pageId)
+      if (this.pageId) {
+        this.loadImages(this.pageId);
+      }
     });
-
-    this.getImage();
   }
 
-  private getImage() {
-    if (this.pageId) this.scanTemplateService.processImage('..\\models\\in\\kidney_tumor_0001.jpg').subscribe((res)=> console.warn(res));
+  private loadImages(pageId: string) {
+//to do
   }
 }

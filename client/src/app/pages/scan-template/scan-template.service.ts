@@ -10,22 +10,13 @@ export class ScanTemplateService {
 
   constructor(private http: HttpClient) {}
 
-  processImage(imagePath: string, modelName: string = 'KidneyCancer'): Observable<any> {
-    const url = this.apiUrl;
+  processImage(file: File, modelName: string): Observable<Blob> {
+    const formData = new FormData();
+    formData.append('image_file', file);
+    formData.append('model_name', modelName);
 
-    // Set headers for JSON content
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+    return this.http.post(this.apiUrl, formData, {
+      responseType: 'blob' // Expect a binary response (image) instead of JSON
     });
-
-    // Define the request body
-    const body = {
-      model_name: modelName,
-      image_path: imagePath,
-      output_path: '..\\models\\kidney_tumor_0001.jpg'
-    };
-
-    // Make a POST request to process the image
-    return this.http.post(url, body, { headers });
   }
 }

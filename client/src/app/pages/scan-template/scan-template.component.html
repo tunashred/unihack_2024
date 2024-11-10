@@ -1,6 +1,6 @@
 <div class="w-full flex flex-col justify-center items-center">
-<file-uploader></file-uploader>
-<!-- @for(image of images; track $index) {
-    <div></div>
-} -->
+<file-uploader class="w-2/3"></file-uploader>
+@for(image of images; track $index) {
+    <img [src]="image" alt="Image {{ $index }}" class="w-24 h-12">
+}
 </div>
